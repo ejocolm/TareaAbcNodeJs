@@ -1,0 +1,44 @@
+Consultas para crear las tablas e inertar datos:
+
+CREATE TABLE gen_empresas (
+    idEmpresa VARCHAR(5) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(200) NOT NULL,
+    direccionfacturacion VARCHAR(200),
+    representantelegal VARCHAR(100),
+    telefono VARCHAR(50),
+    correoelectronico VARCHAR(100),
+    codigopostal VARCHAR(20),
+    estado ENUM('A', 'I', 'PEN', 'DES', 'CAN'),
+    principal ENUM('S', 'N'),
+    adiciono VARCHAR(20) NOT NULL,
+    fechaadicion DATE DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE inv_sucursales (
+    idSucursal VARCHAR(10) PRIMARY KEY,
+    idEmpresa VARCHAR(5) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
+    direccion VARCHAR(100),
+    telefono VARCHAR(50),
+    encargado VARCHAR(50),
+    estado ENUM('A', 'I', 'PEN', 'DES', 'CAN'),
+    FOREIGN KEY (idEmpresa) REFERENCES gen_empresas(idEmpresa)
+);
+
+Insert de datos iniciales
+INSERT INTO gen_empresas (idEmpresa, nombre, direccion, direccionfacturacion, representantelegal, telefono, correoelectronico, codigopostal, estado, principal, adiciono)
+VALUES 
+('E001', 'Empresa A', 'Calle Falsa 123', 'Calle Falsa 456', 'Juan Pérez', '555-1234', 'contacto@empresaa.com', '12345', 'A', 'S', 'Usuario1'),
+('E002', 'Empresa B', 'Avenida Siempre Viva 742', 'Avenida Siempre Viva 123', 'Maria Gómez', '555-5678', 'contacto@empresab.com', '67890', 'I', 'N', 'Usuario2');
+
+INSERT INTO inv_sucursales (idSucursal, idEmpresa, descripcion, direccion, telefono, encargado, estado)
+VALUES 
+('S001', 'E001', 'Sucursal Principal', 'Calle Falsa 123', '555-1111', 'Carlos Ruiz', 'A'),
+('S002', 'E001', 'Sucursal Secundaria', 'Calle Falsa 789', '555-2222', 'Laura Martínez', 'I'),
+('S003', 'E002', 'Sucursal Centro', 'Avenida Siempre Viva 742', '555-3333', 'Pedro López', 'PEN'),
+('S004', 'E002', 'Sucursal Norte', 'Avenida Siempre Viva 500', '555-4444', 'Ana Torres', 'DES'),
+('S005', 'E001', 'Sucursal Sur', 'Calle Falsa 101', '555-5555', 'Jorge García', 'CAN'),
+('S006', 'E002', 'Sucursal Este', 'Avenida Siempre Viva 300', '555-6666', 'Sofía Pérez', 'A'),
+('S007', 'E001', 'Sucursal Oeste', 'Calle Falsa 202', '555-7777', 'Felipe González', 'I');
+
